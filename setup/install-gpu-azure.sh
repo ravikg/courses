@@ -5,6 +5,7 @@ sudo apt-get --assume-yes install software-properties-common
 wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.44-1_amd64.deb
 sudo dpkg -i cuda-repo-ubuntu1604_8.0.44-1_amd64.deb
 sudo apt-get update
+#install cuda 8 - cuda 9 has some poblems with theano
 sudo apt-get -y install cuda-8-0
 # If you get an error like "could not insert 'nvidia_367': No such device" for the following command, restart the VM using command : sudo shutdown -r now
 sudo modprobe nvidia
@@ -12,19 +13,19 @@ nvidia-smi
 
 mkdir downloads
 cd downloads
-wget https://repo.continuum.io/archive/Anaconda2-4.2.0-Linux-x86_64.sh
-bash Anaconda2-4.2.0-Linux-x86_64.sh -b
-echo 'export PATH="/usr/local/cuda/bin:$HOME/anaconda2/bin:$PATH"' >> ~/.bashrc
-export PATH="/usr/local/cuda/bin:$HOME/anaconda2/bin:$PATH"
+wget https://repo.continuum.io/archive/Anaconda3-5.0.0.1-Linux-x86_64.sh
+bash Anaconda3-5.0.0.1-Linux-x86_64.sh -b
+echo 'export PATH="/usr/local/cuda/bin:$HOME/anaconda3/bin:$PATH"' >> ~/.bashrc
+export PATH="/usr/local/cuda/bin:$HOME/anaconda3/bin:$PATH"
 conda install -y bcolz
 conda upgrade -y --all
 
-pip install theano
+conda install -y jupyter matplotlib pillow theano tensorflow pandas scikit-learn bcolz sympy
 echo "[global]
 device = gpu
 floatX = float32" > ~/.theanorc
 
-pip install keras==1.2.2
+conda install -y -c conda-forge keras=1.2.2
 mkdir ~/.keras
 echo '{
     "image_dim_ordering": "th",
